@@ -106,6 +106,7 @@ class TorturaSolution(QWidget):
             self.listwidget.setStyleSheet("background-color: lightpink")
 
     def getItem(self, csap):
+        self.listwidget.close()
         seged = self.listwidget.currentItem().text().split(".")
         csapat = logic.findTheGroupFromList(seged[0])
 
@@ -118,11 +119,11 @@ class TorturaSolution(QWidget):
                 self.blokkismetles = BlockRepeat(csapat)
                 self.blokkismetles.show()
             else:
-                if logic.Groups[csap].endOfBlock == "1":
-                    self.blokkvege = BlockEnd(csap)
+                if logic.Groups[csapat].endOfBlock == 1:
+                    self.blokkvege = BlockEnd(csapat)
                     self.blokkvege.show()
                 else:
-                    self.bemond = ExerciseSolution(csap)
+                    self.bemond = ExerciseSolution(csapat)
                     self.bemond.show()
 
     def jovagyrossz(self, csap):

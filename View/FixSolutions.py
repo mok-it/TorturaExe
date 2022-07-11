@@ -58,7 +58,7 @@ class Correction(QWidget):
 	def correctdone(self, csap, lineEdits):
 		groupNow = logic.Groups[int(csap)-1]
 		for i in range(0, 15):
-			groupNow.exercises[i].concatenatedFromToResults(lineEdits[i].text())
+			groupNow.exercises[i].results = lineEdits[i].text()
 		groupNow.numOfExercise = int(self.exerciseNumberLE.text())
 		logic.writeGroupDataToFile()
 		self.close()
