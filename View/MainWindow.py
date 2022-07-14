@@ -17,7 +17,7 @@ class MainWindow(QMainWindow):
     def initUI(self):
         self.newTortura = createPushButton(60, 60, 280, 40, "Új Tortúra", self.newtortura, self)
         self.continueTortura = createPushButton(60, 150, 280, 40, "Tortúra folytatása", self.contortura, self)
-
+        logic.generateDirectories()
 
     def newtortura(self):
 

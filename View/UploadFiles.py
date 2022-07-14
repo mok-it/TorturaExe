@@ -157,7 +157,7 @@ class UploadFiles(QWidget):
             f.write(directory)
             f.close()
 
-            logic.writeTorturaDatasToFile()
+            logic.Infos.writeTorturaDatasToFile()
             logic.writeGroupDataToFile()
             self.close()
             self.tortbe = TorturaSolution()
