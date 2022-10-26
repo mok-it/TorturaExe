@@ -16,10 +16,10 @@ class UploadFiles(QWidget):
 
     def initUI(self):
 
-        self.sumOfGroups = createLabel(40, 40, 140, 40, "Groupok száma:", self)
+        self.sumOfGroups = createLabel(40, 40, 140, 40, "Csapatok száma:", self)
         self.writeSumOfGroups = createSpinBox(200, 40, 260, 40, 1, 30, self)
 
-        self.fileGroups = createLabel(40, 120, 140, 40, "Groupok:", self)
+        self.fileGroups = createLabel(40, 120, 140, 40, "Csapatok:", self)
         self.uploadGroup = createPushButton(180, 120, 120, 40, "Feltöltés", self.uploadGroup, self)
 
         self.showGroupFile = createLabel(320, 120, 140, 40, "Nincs fájl", self)
