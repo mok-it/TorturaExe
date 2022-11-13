@@ -3,6 +3,10 @@ from View.UploadFiles import *
 
 
 class NewTortura(QWidget):
+
+    # Class constructor
+    # @param self The object pointer
+    # it returns nothing
     def __init__(self):
         super(NewTortura, self).__init__()
         self.setGeometry(300, 100, 300, 320)
@@ -10,31 +14,37 @@ class NewTortura(QWidget):
         self.setWindowTitle("Új Tortúra")
         self.initUI()
 
+    # create a new window where you can make a new tortura, choose from camps and groups
+    # @param self The object pointer
+    # it returns nothing
     def initUI(self):
 
         self.camp = createLabel(40, 80, 60, 40, "Tábor:", self)
 
-        self.campsList = QtWidgets.QComboBox(self)
-        self.campsList.setGeometry(120, 80, 140, 40)
-        taborok = ("Sástó 1", "Sástó 2", "Pusztafalu", "Pálköve 1", "Pálköve 2")
-        for x in taborok:
-            self.campsList.addItem(x)
+        self.camps_list = QtWidgets.QComboBox(self)
+        self.camps_list.setGeometry(120, 80, 140, 40)
+        camps = ("Sástó 1", "Sástó 2", "Pusztafalu", "Pálköve 1", "Pálköve 2")
+        for x in camps:
+            self.camps_list.addItem(x)
 
         self.group = createLabel(40, 160, 60, 40, "Csoport:", self)
 
-        self.groupsList = QtWidgets.QComboBox(self)
-        self.groupsList.setGeometry(120, 160, 140, 40)
-        csoportok = ("AB", "KLM", "PQRST", "XYZUp")
-        for x in csoportok:
-            self.groupsList.addItem(x)
+        self.groups_list = QtWidgets.QComboBox(self)
+        self.groups_list.setGeometry(120, 160, 140, 40)
+        teams = ("AB", "KLM", "PQRST", "XYZUp")
+        for x in teams:
+            self.groups_list.addItem(x)
 
-        self.campAndgroup = createPushButton(40, 240, 220, 40, "OK", self.fileuploading, self)
+        self.camp_and_group = createPushButton(40, 240, 220, 40, "OK", self.fileUploading, self)
 
-    def fileuploading(self):
-        logic.Infos.camp, logic.Infos.age, logic.Infos.groupFile, logic.Infos.solutionFile\
-            = (self.campsList.currentText()), (self.groupsList.currentText()), "", ""
+    # close the window and open the file uploading window, where you can upload the groups file
+    # @param self The object pointer
+    # it returns nothing
+    def fileUploading(self):
+        logic.Infos.camp, logic.Infos.age, logic.Infos.group_file, logic.Infos.solution_file\
+            = (self.camps_list.currentText()), (self.groups_list.currentText()), "", ""
         logic.Groups.clear()
         logic.Solution.clear()
         self.close()
-        self.fileup = UploadFiles()
-        self.fileup.show()
+        self.fileUp = UploadFiles()
+        self.fileUp.show()

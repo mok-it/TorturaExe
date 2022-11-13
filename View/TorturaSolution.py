@@ -94,7 +94,7 @@ class TorturaSolution(QWidget):
         self.rp.show()
 
     def keresesnevre(self):
-        if (logic.Infos.groupFile == ""):
+        if (logic.Infos.group_file == ""):
             self.ThereIsNoFile = createMessageBox(200, 380, 100, 60, "Figyelmeztetés",
                                                   "Nem lehet névre keresni, nincs fájl!", (QMessageBox.Ok), self)
         else:

@@ -57,7 +57,7 @@ class UploadFiles(QWidget):
             self.showGroupFile.setStyleSheet("background-color : white")
             self.showGroupFile.setAlignment(QtCore.Qt.AlignCenter)
             self.showGroupFile.show()
-            logic.Infos.groupFile = file_csapat
+            logic.Infos.group_file = file_csapat
         else:
             logic.Groups.clear()
 
@@ -78,7 +78,7 @@ class UploadFiles(QWidget):
             self.showSolutionFile.setStyleSheet("background-color : white")
             self.showSolutionFile.setAlignment(QtCore.Qt.AlignCenter)
             self.showSolutionFile.show()
-            logic.Infos.solutionFile = file_megoldas
+            logic.Infos.solution_file = file_megoldas
         else:
             logic.Solution.clear()
 
@@ -137,7 +137,7 @@ class UploadFiles(QWidget):
                             self.tortveg = TorturaEnd()
                             self.tortveg.show()
                         else:
-                            if (logic.Infos.solutionFile == ""):
+                            if (logic.Infos.solution_file == ""):
                                 self.utolagosfelt = TorturaContinue()
                                 self.utolagosfelt.show()
                             else:
