@@ -51,7 +51,7 @@ class MainWindow(QMainWindow):
                     self.tortveg.show()
 
                 else:
-                    if logic.Infos.solutionFile == "":
+                    if logic.Infos.solution_file == "":
                         self.utolagosfelt = TorturaContinue()
                         self.utolagosfelt.show()
                     else:

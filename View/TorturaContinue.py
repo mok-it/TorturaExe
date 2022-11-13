@@ -30,11 +30,11 @@ class TorturaContinue(QWidget):
 
         self.finishUpload = createPushButton(40, 280, 420, 40, "Tovább", self.tortbem, self)
 
-        if (logic.Infos.solutionFile == ""):
+        if (logic.Infos.solution_file == ""):
             self.showSolutionFile.setText("Nincs fájl")
             self.showSolutionFile.show()
         else:
-            a = logic.Infos.solutionFile.split('/')
+            a = logic.Infos.solution_file.split('/')
             self.showSolutionFile.setText(a[len(a) - 1])
             self.showSolutionFile.show()
 
@@ -63,4 +63,4 @@ class TorturaContinue(QWidget):
             self.showSolutionFile.setStyleSheet("background-color : white")
             self.showSolutionFile.setAlignment(QtCore.Qt.AlignCenter)
             self.showSolutionFile.show()
-            logic.Infos.solutionFile = file_megoldas
+            logic.Infos.solution_file = file_megoldas
