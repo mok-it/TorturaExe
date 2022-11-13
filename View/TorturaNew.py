@@ -6,8 +6,7 @@ class NewTortura(QWidget):
 
     # Class constructor
     # @param self The object pointer
-    # it returns nothing
-    def __init__(self):
+    def __init__(self) -> None:
         super(NewTortura, self).__init__()
         self.setGeometry(300, 100, 300, 320)
         self.setStyleSheet("background-color: lightblue")
@@ -16,8 +15,7 @@ class NewTortura(QWidget):
 
     # create a new window where you can make a new tortura, choose from camps and groups
     # @param self The object pointer
-    # it returns nothing
-    def initUI(self):
+    def initUI(self) -> None:
 
         self.camp = createLabel(40, 80, 60, 40, "Tábor:", self)
 
@@ -39,8 +37,7 @@ class NewTortura(QWidget):
 
     # close the window and open the file uploading window, where you can upload the groups file
     # @param self The object pointer
-    # it returns nothing
-    def fileUploading(self):
+    def fileUploading(self)-> None:
         logic.Infos.camp, logic.Infos.age, logic.Infos.group_file, logic.Infos.solution_file\
             = (self.camps_list.currentText()), (self.groups_list.currentText()), "", ""
         logic.Groups.clear()
