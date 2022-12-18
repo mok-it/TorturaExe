@@ -15,24 +15,24 @@ class MainWindow(QMainWindow):
         self.initUI()
 
     def initUI(self):
-        self.newTortura = createPushButton(60, 60, 280, 40, "Új Tortúra", self.newtortura, self)
-        self.continueTortura = createPushButton(60, 150, 280, 40, "Tortúra folytatása", self.contortura, self)
+        self.new_tortura = createPushButton(60, 60, 280, 40, "Új Tortúra", self.newTortura, self)
+        self.continue_tortura = createPushButton(60, 150, 280, 40, "Tortúra folytatása", self.conTortura, self)
         logic.generateDirectories()
 
-    def newtortura(self):
+    def newTortura(self):
 
         self.mb = createMessageBox(200, 380, 100, 60, "Figyelmeztetés",
                                    "Új tortúra indításával a régi adatok törlődnek. Folytatja?",
                                    (QMessageBox.Yes | QMessageBox.No), self)
-        returnValue = self.mb.exec()
+        return_value = self.mb.exec()
 
-        if returnValue == QMessageBox.No:
+        if return_value == QMessageBox.No:
             self.mb.close()
         else:
             self.newtort = NewTortura()
             self.newtort.show()
 
-    def contortura(self):
+    def conTortura(self):
         if exists("Docs/input/input.txt"):
             ff = open("Docs/input/input.txt", "r")
             tortura = ff.readline().rstrip()

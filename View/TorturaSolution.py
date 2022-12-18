@@ -19,20 +19,20 @@ class TorturaSolution(QWidget):
         groupButtons = []
         for i in range(0, len(logic.Groups)):
             groupButtons.append(createPushButton(40 + 88 * (i - i // 5 * 5), 40 + 60 * (i // 5), 68, 40, str(i + 1),
-                                                 partial(self.jovagyrossz, i), self))
+                                                 partial(self.rightOrWrong, i), self))
 
         self.nameOfStudent = createLabel(40, 140 + ((numGr // 5) * 60), 120, 40, "Keresés névre:", self)
         self.readName = createLineEdit(200, 140 + ((numGr // 5) * 60), 260, 40, self)
-        self.searchName = createPushButton(40, 200 + ((numGr // 5) * 60), 420, 40, "OK", self.keresesnevre, self)
+        self.searchName = createPushButton(40, 200 + ((numGr // 5) * 60), 420, 40, "OK", self.findByName, self)
 
-        self.tabella = createPushButton(40, 300 + ((numGr // 5) * 60), 420, 40, "Tabella", self.tabella, self)
+        self.tabella = createPushButton(40, 300 + ((numGr // 5) * 60), 420, 40, "Tabella", self.scoreBoard, self)
 
         self.correct = createPushButton(40, 360 + ((numGr // 5) * 60), 420, 40, "Javítás", self.correct, self)
 
-        self.finishTortura = createPushButton(40, 420 + ((numGr // 5) * 60), 420, 40, "Tortúra befejezése", self.vege,
+        self.finishTortura = createPushButton(40, 420 + ((numGr // 5) * 60), 420, 40, "Tortúra befejezése", self.end,
                                               self)
 
-    def vege(self):
+    def end(self):
 
         self.finishTheTortura = createMessageBox(200, 380, 100, 60, "Figyelmeztetés", "Biztosan befejezed a Tortúrát?",
                                                  (QMessageBox.Yes | QMessageBox.No), self)
@@ -50,7 +50,7 @@ class TorturaSolution(QWidget):
 
         logic.Infos.writeTorturaDatasToFile()
 
-    def tabella(self):
+    def scoreBoard(self):
 
         sortedlist = logic.sortResults()
         self.tabellalist = createListWidget(200, 400, 550, 300, "Csapatok tabellája", self.getTabItem)
@@ -60,20 +60,20 @@ class TorturaSolution(QWidget):
                 sortedlist[i].numOfGroup) + ". csapat\t\tpontszám: " + str(sortedlist[i].points) + "\tends: " + str(
                 sortedlist[i].ends))
 
-    def getTabItem(self, lstItem):
-        seged = self.tabellalist.currentItem().text().split(".")
-        csapseged = seged[1].replace('\t', '')
-        csapat = logic.findTheGroupFromList(int(csapseged))
+    def getTabItem(self):
+        temp = self.tabellalist.currentItem().text().split(".")
+        team_temp = temp[1].replace('\t', '')
+        team = logic.findTheGroupFromList(int(team_temp))
 
         self.rp = QtWidgets.QTextBrowser()
         self.rp.setStyleSheet("background-color: lightpink")
         self.rp.setGeometry(750, 100, 550, 700)
-        self.rp.setWindowTitle(str(csapat + 1) + ". csapat")
-        self.rp.insertPlainText("\nPontszám:\t" + str(logic.Groups[csapat].getPoint()))
-        self.rp.insertPlainText("\n\nBefejezve:\t" + str(logic.Groups[csapat].getFinish()))
+        self.rp.setWindowTitle(str(team + 1) + ". csapat")
+        self.rp.insertPlainText("\nPontszám:\t" + str(logic.Groups[team].getPoint()))
+        self.rp.insertPlainText("\n\nBefejezve:\t" + str(logic.Groups[team].getFinish()))
         self.rp.insertPlainText("\n\nCsapat tagjai:\t")
         s = 0
-        for i in logic.Groups[csapat].members:
+        for i in logic.Groups[team].members:
             if (s == 2):
                 self.rp.insertPlainText("\n\t\t")
             if (s % 2 == 0):
@@ -85,7 +85,7 @@ class TorturaSolution(QWidget):
         self.rp.insertPlainText("\n\nFeladat\t1. próba\t2. próba\t3. próba\t4. próba\t5. próba\n\n")
         for i in range(0, 15):
             self.rp.insertPlainText(str(i + 1) + ".\t")
-            for iii in str(logic.Groups[csapat].getNthExercise(i).getConcatenatedForm()):
+            for iii in str(logic.Groups[team].getNthExercise(i).getConcatenatedForm()):
                 if (iii == '1'):
                     self.rp.insertPlainText("JÓ\t")
                 else:
@@ -93,51 +93,51 @@ class TorturaSolution(QWidget):
             self.rp.insertPlainText("\n\n")
         self.rp.show()
 
-    def keresesnevre(self):
+    def findByName(self):
         if (logic.Infos.group_file == ""):
             self.ThereIsNoFile = createMessageBox(200, 380, 100, 60, "Figyelmeztetés",
                                                   "Nem lehet névre keresni, nincs fájl!", (QMessageBox.Ok), self)
         else:
-            talalt, embernev = logic.findByNames(self.readName.text())
+            found, embernev = logic.findByNames(self.readName.text())
 
             self.listwidget = createListWidget(200, 400, 300, 200, "Csapatok - emberek", self.getItem)
-            for i in range(0, len(talalt)):
-                self.listwidget.insertItem(i, str(talalt[i].getNumOfGroup()) + ". csapat\t" + str(embernev[i]))
+            for i in range(0, len(found)):
+                self.listwidget.insertItem(i, str(found[i].getNumOfGroup()) + ". csapat\t" + str(embernev[i]))
             self.listwidget.setStyleSheet("background-color: lightpink")
 
-    def getItem(self, csap):
+    def getItem(self):
         self.listwidget.close()
-        seged = self.listwidget.currentItem().text().split(".")
-        csapat = logic.findTheGroupFromList(seged[0])
+        temp = self.listwidget.currentItem().text().split(".")
+        team = logic.findTheGroupFromList(temp[0])
 
-        if (logic.Groups[int(csapat)].getFinish() != ""):
+        if (logic.Groups[int(team)].getFinish() != ""):
             self.TheGroupsFinished = createMessageBox(200, 380, 100, 60, "Figyelmeztetés",
                                                       "Az adott csapat végzett a tortúrával!", (QMessageBox.Ok), self)
         else:
-            if (logic.Groups[csapat].getActualExercise().getNumOfAnswers() > 0):
+            if (logic.Groups[team].getActualExercise().getNumOfAnswers() > 0):
                 self.listwidget.close()
-                self.blokkismetles = BlockRepeat(csapat)
-                self.blokkismetles.show()
+                self.do_block_again = BlockRepeat(team)
+                self.do_block_again.show()
             else:
-                if logic.Groups[csapat].endOfBlock == 1:
-                    self.blokkvege = BlockEnd(csapat)
+                if logic.Groups[team].endOfBlock == 1:
+                    self.blokkvege = BlockEnd(team)
                     self.blokkvege.show()
                 else:
-                    self.bemond = ExerciseSolution(csapat)
-                    self.bemond.show()
+                    self.tell = ExerciseSolution(team)
+                    self.tell.show()
 
-    def jovagyrossz(self, csap):
-        if (logic.Groups[csap].getFinish() == ""):
-            if (logic.Groups[csap].getActualExercise().getNumOfAnswers() > 0):
-                self.blokkismetles = BlockRepeat(csap)
-                self.blokkismetles.show()
+    def rightOrWrong(self, team):
+        if (logic.Groups[team].getFinish() == ""):
+            if (logic.Groups[team].getActualExercise().getNumOfAnswers() > 0):
+                self.do_block_again = BlockRepeat(team)
+                self.do_block_again.show()
             else:
-                if logic.Groups[csap].endOfBlock == "1":
-                    self.blokkvege = BlockEnd(csap)
+                if logic.Groups[team].endOfBlock == "1":
+                    self.blokkvege = BlockEnd(team)
                     self.blokkvege.show()
                 else:
-                    self.bemond = ExerciseSolution(csap)
-                    self.bemond.show()
+                    self.tell = ExerciseSolution(team)
+                    self.tell.show()
         else:
             self.TheGroupsFinished = createMessageBox(200, 380, 100, 60, "Figyelmeztetés",
                                                       "Az adott csapat végzett a tortúrával!", (QMessageBox.Ok), self)
