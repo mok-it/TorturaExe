@@ -13,20 +13,20 @@ class ExerciseSolution(QWidget):
 
     def initUI(self, csap):
 
-        self.groupNumber = createLabel(40, 40, 220, 20, str(csap + 1) + ". csapat", self)
-        self.groupNumber.setAlignment(QtCore.Qt.AlignCenter)
+        self.group_number = createLabel(40, 40, 220, 20, str(csap + 1) + ". csapat", self)
+        self.group_number.setAlignment(QtCore.Qt.AlignCenter)
 
-        groupnames = []
+        group_names = []
         sz = 0
         for i in logic.Groups[csap].members:
             tag = createLabel(40, 80 + 20 * sz, 220, 20, i, self)
             tag.setAlignment(QtCore.Qt.AlignCenter)
-            groupnames.append(tag)
+            group_names.append(tag)
             sz += 1
 
-        self.exerciseNumber = createLabel(40, 180, 220, 40, str(logic.Groups[int(csap)].getSumOfExercises()) + ". feladat",
-                                          self)
-        self.exerciseNumber.setAlignment(QtCore.Qt.AlignCenter)
+        self.exercise_number = createLabel(40, 180, 220, 40, str(logic.Groups[int(csap)].getSumOfExercises()) + ". feladat",
+                                           self)
+        self.exercise_number.setAlignment(QtCore.Qt.AlignCenter)
 
         self.solution = createLabel(40, 220, 220, 20, "", self)
         self.solution.setAlignment(QtCore.Qt.AlignCenter)
@@ -34,8 +34,8 @@ class ExerciseSolution(QWidget):
         self.solution2 = createLabel(40, 240, 220, 40, "", self)
         self.solution2.setAlignment(QtCore.Qt.AlignCenter)
 
-        self.additinaldatal = createLabel(40, 320, 220, 40, "Bemondott válasz:", self)
-        self.additinaldatale = createLineEdit(40, 360, 220, 40, self)
+        self.additinal_datal = createLabel(40, 320, 220, 40, "Bemondott válasz:", self)
+        self.additinal_datale = createLineEdit(40, 360, 220, 40, self)
 
         if (len(logic.Solution) == 0 or logic.Solution[logic.Groups[int(csap)].numOfExercise - 1] == ""):
             self.solution.setText("Nincs megoldás feltöltve!")
@@ -46,45 +46,45 @@ class ExerciseSolution(QWidget):
             self.solution2.setText(logic.Solution[logic.Groups[int(csap)].getSumOfExercises() - 1])
             self.solution2.setStyleSheet("background-color: white")
 
-        self.pushbutton_right = createPushButton(40, 440, 90, 40, "JÓ", partial(self.rightmegoldas, csap), self)
+        self.pushbutton_right = createPushButton(40, 440, 90, 40, "JÓ", partial(self.rightSolution, csap), self)
         self.pushbutton_right.setStyleSheet("background-color: green")
-        self.pushbutton_rossz = createPushButton(170, 440, 90, 40, "ROSSZ", partial(self.rosszmegoldas, csap), self)
-        self.pushbutton_rossz.setStyleSheet("background-color: red")
+        self.pushbutton_wrong = createPushButton(170, 440, 90, 40, "ROSSZ", partial(self.wrongSolution, csap), self)
+        self.pushbutton_wrong.setStyleSheet("background-color: red")
 
-    def rightmegoldas(self, csap):
+    def rightSolution(self, team):
         self.close()
-        logic.Groups[csap].exercises[logic.Groups[csap].numOfExercise - 1].newSolution(True)
-        if (self.additinaldatale.text() == ""):
-            logic.Groups[csap].exercises[logic.Groups[csap].numOfExercise - 1].additionalDatas += "- ; "
+        logic.Groups[team].exercises[logic.Groups[team].numOfExercise - 1].newSolution(True)
+        if (self.additinal_datale.text() == ""):
+            logic.Groups[team].exercises[logic.Groups[team].numOfExercise - 1].additionalDatas += "- ; "
         else:
-            logic.Groups[csap].exercises[logic.Groups[csap].numOfExercise - 1].additionalDatas += self.additinaldatale.text() + " ; "
-        logic.Groups[csap].numOfExercise += 1
+            logic.Groups[team].exercises[logic.Groups[team].numOfExercise - 1].additionalDatas += self.additinal_datale.text() + " ; "
+        logic.Groups[team].numOfExercise += 1
         logic.writeGroupDataToFile()
         logic.WriteAdditionalDatasToFile()
         logic.refreshPoints()
-        feladat = logic.Groups[int(csap)].getSumOfExercises()
-        if (feladat == 6 or feladat == 10 or feladat == 13 or feladat == 15 or feladat == 16):
-            self.blokkv = BlockEnd(csap)
+        exercise = logic.Groups[int(team)].getSumOfExercises()
+        if (exercise == 6 or exercise == 10 or exercise == 13 or exercise == 15 or exercise == 16):
+            self.blokkv = BlockEnd(team)
             self.blokkv.show()
         else:
-            self.mb = createMessageBox(200, 380, 100, 60, str(csap + 1) + ". csapat",
-                                       "A következő feladat száma: " + str(logic.Groups[int(csap)].getSumOfExercises()),
+            self.mb = createMessageBox(200, 380, 100, 60, str(team + 1) + ". csapat",
+                                       "A következő feladat száma: " + str(logic.Groups[int(team)].getSumOfExercises()),
                                        QMessageBox.Ok, self)
 
-    def rosszmegoldas(self, csap):
+    def wrongSolution(self, csap):
         logic.Groups[csap].exercises[logic.Groups[csap].numOfExercise - 1].newSolution(False)
-        if (self.additinaldatale.text() == ""):
+        if (self.additinal_datale.text() == ""):
             logic.Groups[csap].exercises[logic.Groups[csap].numOfExercise - 1].additionalDatas += "- ; "
         else:
-            logic.Groups[csap].exercises[logic.Groups[csap].numOfExercise - 1].additionalDatas += self.additinaldatale.text() + " ; "
+            logic.Groups[csap].exercises[logic.Groups[csap].numOfExercise - 1].additionalDatas += self.additinal_datale.text() + " ; "
 
         logic.Groups[csap].numOfExercise += 1
         logic.writeGroupDataToFile()
         logic.WriteAdditionalDatasToFile()
         logic.refreshPoints()
         self.close()
-        feladat = logic.Groups[int(csap)].getSumOfExercises()
-        if (feladat == 6 or feladat == 10 or feladat == 13 or feladat == 15 or feladat == 16):
+        exercise = logic.Groups[int(csap)].getSumOfExercises()
+        if (exercise == 6 or exercise == 10 or exercise == 13 or exercise == 15 or exercise == 16):
             self.blokkv = BlockEnd(csap)
             self.blokkv.show()
         else:

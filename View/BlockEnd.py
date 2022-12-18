@@ -5,52 +5,52 @@ from Model.Logic import *
 
 
 class BlockEnd(QWidget):
-    def __init__(self, csap):
+    def __init__(self, team):
         super(BlockEnd, self).__init__()
         self.setGeometry(100, 100, 320, 420)
         self.setStyleSheet("background-color: lightpink")
-        self.setWindowTitle(str(csap + 1) + ". csapat")
-        self.initUI(csap)
+        self.setWindowTitle(str(team + 1) + ". csapat")
+        self.initUI(team)
 
-    def initUI(self, csap):
+    def initUI(self, team):
 
         self.endOfBlock = createLabel(40, 40, 220, 40, "Blokk vége", self)
         self.endOfBlock.setAlignment(QtCore.Qt.AlignCenter)
 
-        logic.Groups[csap].endOfBlock = "1"
+        logic.Groups[team].endOfBlock = "1"
         logic.writeGroupDataToFile()
 
-        self.rightAnswers = createLabel(40, 100, 220, 40, "", self)
-        self.rightAnswers.setAlignment(QtCore.Qt.AlignCenter)
+        self.right_answers = createLabel(40, 100, 220, 40, "", self)
+        self.right_answers.setAlignment(QtCore.Qt.AlignCenter)
 
-        numOfBlock = logic.Groups[int(csap)].getBlockFromExerciseNumber().numOfExercises
-        self.rightAnswers.setText(str(numOfBlock) + " feladatból\na jó megoldások száma:")
+        num_of_block = logic.Groups[int(team)].getBlockFromExerciseNumber().numOfExercises
+        self.right_answers.setText(str(num_of_block) + " feladatból\na jó megoldások száma:")
 
-        self.rightAnswers2 = createLabel(40, 140, 220, 40, str(logic.Groups[int(csap)].RightExercises()) + " feladat", self)
-        self.rightAnswers2.setAlignment(QtCore.Qt.AlignCenter)
+        self.right_answers_2 = createLabel(40, 140, 220, 40, str(logic.Groups[int(team)].RightExercises()) + " feladat", self)
+        self.right_answers_2.setAlignment(QtCore.Qt.AlignCenter)
 
         self.respond = createLabel(40, 240, 220, 40, "", self)
         self.respond.setAlignment(QtCore.Qt.AlignCenter)
 
-        if logic.Groups[int(csap)].RightExercises() == numOfBlock:
+        if logic.Groups[int(team)].RightExercises() == num_of_block:
 
-            if numOfBlock != 1:
+            if num_of_block != 1:
                 self.respond.setText("Tökéletes, mehetsz tovább")
-                self.pushbutton_ok = createPushButton(40, 340, 220, 40, "OK", partial(self.tokeletes, csap), self)
+                self.pushbutton_ok = createPushButton(40, 340, 220, 40, "OK", partial(self.perfect, team), self)
                 logic.writeGroupDataToFile()
 
             else:
                 self.respond.setText("Befejezted a Tortúrát,\ngratulálunk!")
-                logic.Groups[int(csap)].torturaEnds()
-                self.pushbutton_ok = createPushButton(40, 340, 220, 40, "VÉGE", self.teljesenvege, self)
+                logic.Groups[int(team)].torturaEnds()
+                self.pushbutton_ok = createPushButton(40, 340, 220, 40, "VÉGE", self.completelyOver, self)
                 logic.writeGroupDataToFile()
 
         else:
-            if logic.Groups[int(csap)].RightExercises() >= (numOfBlock // 2) + 1:
+            if logic.Groups[int(team)].RightExercises() >= (num_of_block // 2) + 1:
                 self.respond.setText("Tovább mész?")
-                self.pushbutton_go = createPushButton(20, 340, 130, 40, "MEGY", partial(self.tokeletes, csap), self)
+                self.pushbutton_go = createPushButton(20, 340, 130, 40, "MEGY", partial(self.perfect, team), self)
                 self.pushbutton_go.setStyleSheet("background-color: green")
-                self.pushbutton_stay = createPushButton(170, 340, 130, 40, "ÚJRAKEZD", partial(self.ujrakezd, numOfBlock, csap),
+                self.pushbutton_stay = createPushButton(170, 340, 130, 40, "ÚJRAKEZD", partial(self.startAgain, num_of_block, team),
                                                         self)
                 self.pushbutton_stay.setStyleSheet("background-color: red")
 
@@ -58,27 +58,27 @@ class BlockEnd(QWidget):
 
             else:
                 self.respond.setText("Sajnos nem mehetsz tovább")
-                self.pushbutton_stay = createPushButton(40, 340, 220, 40, "ÚJRAKEZD", partial(self.ujrakezd, numOfBlock, csap),
+                self.pushbutton_stay = createPushButton(40, 340, 220, 40, "ÚJRAKEZD", partial(self.startAgain, num_of_block, team),
                                                         self)
 
                 logic.writeGroupDataToFile()
 
-    def ujrakezd(self, ii, csap):
+    def startAgain(self, num_of_block: int, team: int):
         self.close()
-        logic.Groups[csap].numOfExercise -= ii
-        logic.Groups[csap].endOfBlock = 1
+        logic.Groups[team].numOfExercise -= num_of_block
+        logic.Groups[team].endOfBlock = 1
         logic.writeGroupDataToFile()
-        self.mb = createMessageBox(200, 380, 100, 60, str(csap + 1) + ". csapat",
-                                   "A következő feladat száma: " + str(logic.Groups[int(csap)].getSumOfExercises()),
+        self.mb = createMessageBox(200, 380, 100, 60, str(team + 1) + ". csapat",
+                                   "A következő feladat száma: " + str(logic.Groups[int(team)].getSumOfExercises()),
                                    QMessageBox.Ok, self)
 
-    def teljesenvege(self, csap):
+    def completelyOver(self):
         self.close()
 
-    def tokeletes(self, csap):
+    def perfect(self, team):
         self.close()
-        logic.Groups[csap].endOfBlock = "0"
+        logic.Groups[team].endOfBlock = "0"
         logic.writeGroupDataToFile()
-        self.mb = createMessageBox(200, 380, 100, 60, str(csap + 1) + ". csapat",
-                                   "A következő feladat száma: " + str(logic.Groups[int(csap)].getSumOfExercises()),
+        self.mb = createMessageBox(200, 380, 100, 60, str(team + 1) + ". csapat",
+                                   "A következő feladat száma: " + str(logic.Groups[int(team)].getSumOfExercises()),
                                    QMessageBox.Ok, self)
