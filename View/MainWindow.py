@@ -33,8 +33,8 @@ class MainWindow(QMainWindow):
             self.newtort.show()
 
     def conTortura(self):
-        if exists("Docs/input/input.txt"):
-            ff = open("Docs/input/input.txt", "r")
+        if exists("data/input/input.txt"):
+            ff = open("data/input/input.txt", "r")
             tortura = ff.readline().rstrip()
             ff.close()
 
