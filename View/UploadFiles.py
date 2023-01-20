@@ -93,7 +93,7 @@ class UploadFiles(QWidget):
         hm = str(date.strftime("%y"))
 
         directory = (tabor + "_" + csoport + "_" + hm)
-        parent_dir = "Docs/input/"
+        parent_dir = "data/input/"
         path = os.path.join(parent_dir, directory)
 
         if (os.path.isdir(path)):
@@ -104,7 +104,7 @@ class UploadFiles(QWidget):
                 shutil.rmtree(path)
                 os.mkdir(path)
 
-                f = open("Docs/input/input.txt", "w")
+                f = open("data/input/input.txt", "w")
                 f.write(directory)
                 f.close()
 
@@ -116,12 +116,12 @@ class UploadFiles(QWidget):
                 self.tortbe.show()
 
             else:
-                f = open("Docs/input/input.txt", "w")
+                f = open("data/input/input.txt", "w")
                 f.write(directory)
                 f.close()
 
-                if (exists("Docs/input/input.txt")):
-                    ff = open("Docs/input/input.txt", "r")
+                if (exists("data/input/input.txt")):
+                    ff = open("data/input/input.txt", "r")
                     tortura = ff.readline().replace('\n', '')
                     ff.close()
 
@@ -153,7 +153,7 @@ class UploadFiles(QWidget):
         else:
             os.mkdir(path)
 
-            f = open("Docs/input/input.txt", "w")
+            f = open("data/input/input.txt", "w")
             f.write(directory)
             f.close()
 

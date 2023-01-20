@@ -39,12 +39,12 @@ class TorturaInfos:
             "endOfTortura": self.endOfTortura
         }
         json_object = json.dumps(dictionary, indent=4)
-        with open("Docs/input/" + self.camp + "_" + self.age + "_" + hm + "/datas.json", "w") as outfile:
+        with open("data/input/" + self.camp + "_" + self.age + "_" + hm + "/datas.json", "w") as outfile:
             outfile.write(json_object)
 
     def readTorturaDatas(self, tortura: str):
-        if exists("Docs/input/" + tortura + "/datas.json"):
-            f = open("Docs/input/" + tortura + "/datas.json", "r")
+        if exists("data/input/" + tortura + "/datas.json"):
+            f = open("data/input/" + tortura + "/datas.json", "r")
             datas = json.load(f)
             self.camp = datas["camp"]
             self.age = datas["age"]

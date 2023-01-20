@@ -65,12 +65,12 @@ class Logic:
 
 
     def generateDirectories(self):
-        maindir = "Docs"
+        maindir = "data"
         if not os.path.isdir(maindir):
             os.mkdir(maindir)
 
         directory = "input"
-        parent_dir = "Docs/"
+        parent_dir = "data/"
         path1 = os.path.join(parent_dir, directory)
 
         if not os.path.isdir(path1):
@@ -82,7 +82,7 @@ class Logic:
             os.mkdir(path2)
 
         directory = "additionaldatas"
-        parent_dir = "Docs/output"
+        parent_dir = "data/output"
         path3 = os.path.join(parent_dir, directory)
 
         if not os.path.isdir(path3):
@@ -113,13 +113,13 @@ class Logic:
             for j in range(0, 15):
                 dictionary["groups"][i]["solutions"].append(self.Groups[i].exercises[j].results)
         json_object = json.dumps(dictionary, indent=4)
-        with open("Docs/input/" + self.Infos.camp + "_" + self.Infos.age + "_" + hm + "/" + self.Infos.dataFile, "w") as outfile:
+        with open("data/input/" + self.Infos.camp + "_" + self.Infos.age + "_" + hm + "/" + self.Infos.dataFile, "w") as outfile:
             outfile.write(json_object)
 
     def writeResultsToFile(self):
         date = datetime.datetime.now()
         hm = str(date.strftime("%y"))
-        ff = open(("Docs/output/results/" + self.Infos.camp + "_" + self.Infos.age + "_" + hm + ".txt"), "w")
+        ff = open(("data/output/results/" + self.Infos.camp + "_" + self.Infos.age + "_" + hm + ".txt"), "w")
         tab = sorted(self.Groups, reverse=False, key=lambda x: x.ends)
         tab.sort(reverse=True, key=lambda x: x.points)
         sz = 1
@@ -131,7 +131,7 @@ class Logic:
     def WriteAdditionalDatasToFile(self):
         date = datetime.datetime.now()
         hm = str(date.strftime("%y"))
-        ff = open(("Docs/output/additionaldatas/" + self.Infos.camp + "_" + self.Infos.age + "_" + hm + ".txt"), "w")
+        ff = open(("data/output/additionaldatas/" + self.Infos.camp + "_" + self.Infos.age + "_" + hm + ".txt"), "w")
         for i in range(0, len(self.Groups)):
             ff.write(str(self.Groups[i].getNumOfGroup()) + ". csapat\n")
             for ii in range(0, 15):
@@ -186,7 +186,7 @@ class Logic:
     # eddigi megoldások
     def readGroupDatasFromFile(self, tortura: str) -> None:
         if self.Infos.dataFile:
-            ff = open("Docs/input/" + tortura + "/" + self.Infos.dataFile, "r", encoding='UTF-8')
+            ff = open("data/input/" + tortura + "/" + self.Infos.dataFile, "r", encoding='UTF-8')
             datas = json.load(ff)
             numG = 0
             for i in datas["groups"]:
