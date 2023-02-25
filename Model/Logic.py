@@ -1,6 +1,6 @@
 import json
 import os
-from typing import Sequence
+from typing import Sequence, List
 from Model.TorturaInfos import *
 from Model.Group import *
 
@@ -32,24 +32,23 @@ class Logic:
         return tab
 
 
-    def findTheGroupFromList(self, keresettelem):
-        csap = 0
+    def findTheGroupFromList(self, member_name: str):
+        group_num = 0
         for iii in self.Groups:
-            if int(iii.numOfGroup) == int(keresettelem):
+            if int(iii.numOfGroup) == int(member_name):
                 break
-            csap += 1
-        return csap
+            group_num += 1
+        return group_num
 
 
-    def findByNames(self, nev):
-        talalt = []  # csapat szma, ahol a név szerepel
-        embernev = []  # csapatban az ember, akinek jó a neve
-        for i in self.Groups:
-            for j in i.members:
-                if j.capitalize().find(nev.capitalize()) >= 0:
-                    talalt.append(i)
-                    embernev.append(j)
-        return talalt, embernev
+    # Find students with the given name
+    def findByNames(self, member_name: str) -> List:
+        occurences : List = []  # (group number, name of student)
+        for group in self.Groups:
+            for member in group.members:
+                if member_name.lower().replace(" ", "") in member.lower().replace(" ", ""):
+                    occurences.append((group, member))
+        return occurences
 
 
     def getBlockLength(self, csap):
