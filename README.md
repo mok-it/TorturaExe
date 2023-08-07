@@ -3,7 +3,7 @@
 
 # Legacy Tortúra app
 
-Az app elavult és kivezetésre került, a helyébe az új [TortúrApp](https://github.com/mok-it/TorturApp) lépett.
+Az app elavult és kivezetésre került, a helyébe az új [TortúrApp](https://github.com/mok-it/TorturApp) lépett. Ha valamilyen okból fogva mégis ezt használnád, jobb oldalt, a _release_ felirat alatt megtalálod a legújabb verziót. Arra kattintva töltsd le a .exe kiterjesztésű fájlt és már futtathatod is.
 
 ## Használati utasítás
 
